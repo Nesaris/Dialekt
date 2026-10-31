@@ -9,7 +9,7 @@ import { passerAssistant, ouvrirReglagesService } from '../socle/essai/assistant
 const [base, jeton, sortie = '/tmp/captures-dialekt'] = process.argv.slice(2);
 fs.mkdirSync(sortie, { recursive: true });
 const navigateur = await chromium.launch();
-const contexte = await navigateur.newContext({ viewport: { width: 1280, height: 860 } });
+const contexte = await navigateur.newContext({ viewport: { width: 1280, height: 860 }, colorScheme: process.env.PARCOURS_SOMBRE === '1' ? 'dark' : 'light' });
 const page = await contexte.newPage();
 const erreurs = [];
 page.on('console', m => { if (m.type() === 'error') erreurs.push(m.text()); });
