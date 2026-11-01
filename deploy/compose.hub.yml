@@ -3,7 +3,7 @@
 # volume nommé et réseau partagé du Hub.
 services:
   dialekt:
-    image: ghcr.io/codexx64/dialekt:{{config.IMAGE_TAG}}
+    image: ghcr.io/nesaris/dialekt:{{config.IMAGE_TAG}}
     container_name: {{service.host}}
     restart: unless-stopped
     networks: [hub]
