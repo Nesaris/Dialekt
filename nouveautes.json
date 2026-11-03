@@ -1,5 +1,14 @@
 [
   {
+    "version": "2.4.0",
+    "date": "2026-11-03",
+    "points": [
+      "Calculatrice exacte intégrée : un calcul posé dans la question (« combien font 10 × π × 324 000 ? », « 7 fois 6 », « racine de 2 ») est fait par l’outil, jamais de tête par un modèle ; les deux modèles reçoivent la valeur exacte à reprendre.",
+      "La page l’affiche à côté de la question : « calcul exact : 10XpiX324000 = 10 178 760,19763093… ».",
+      "Hors réseau : la calculatrice est embarquée, elle fonctionne même si SYNAPSE est arrêté."
+    ]
+  },
+  {
     "version": "2.3.1",
     "date": "2026-11-01",
     "points": [

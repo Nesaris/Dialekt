@@ -126,3 +126,9 @@ Commandes de l'annexe B.5, sur `src web test outils socle deploy Dockerfile .git
 - [x] Blind-comparison test passed — les fichiers réécrits suivent le vocabulaire, les aides et la forme du socle
 - [x] Commit history: one concern per commit, repository style, no attribution trailers
 - [x] REQ-CODE-001 to REQ-CODE-006 all PASS
+
+## Suivi du 2026-11-03 (2.4.0) : calculatrice exacte intégrée
+Demande : les outils de base, dont la calculatrice, intégrés d'office à DIALEKT et à SYNAPSE ; une IA ne calcule jamais de tête ; tout hors réseau.
+Choix : DIALEKT ne passe pas d'outils aux modèles (deux fournisseurs en flux parallèles). Les calculs de la question sont donc repérés et faits AVANT les modèles par `src/calcul.js` (copie de SYNAPSE, mêmes essais) ; le résultat entre dans le contexte cloisonné des deux modèles, avec la consigne de le reprendre tel quel ; la page reçoit un événement `calc` et l'affiche. Même traitement sur le chemin de l'action du Hub (`unBloc`).
+Calculatrice : analyseur sans évaluation de code ; fractions de grands entiers (quatre opérations, puissances entières : exact) ; π, e, racines à 60 chiffres (≥ 40 chiffres justes) ; puissances non entières en double, signalé ; écriture française (« 324 000 », « 10,5 », « fois », « divisé par », « pi ») ; dates, heures et nombres seuls ignorés.
+Essais : calculatrice (référence 10 × π × 324 000 = 10 178 760,197630930092…, exactitude, priorités, refus) ; duel « combien font 10XpiX324000 ? » : événement `calc`, valeur exacte dans la consigne du modèle local. 33 essais verts.
