@@ -1,5 +1,13 @@
 [
   {
+    "version": "2.5.0",
+    "date": "2026-11-03",
+    "points": [
+      "Les modèles reçoivent enfin le briefing de SYNAPSE avant de répondre : les leçons à appliquer, les outils, ce qu’on sait de toi, les erreurs déjà corrigées et la mémoire. Avant, DIALEKT interrogeait une ancienne adresse et partait sans contexte.",
+      "SYNAPSE injoignable : la question part quand même, sans attendre plus de 5 secondes."
+    ]
+  },
+  {
     "version": "2.4.0",
     "date": "2026-11-03",
     "points": [
