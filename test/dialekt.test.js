@@ -412,3 +412,14 @@ test('ancien nom : un .env d’Oracle (ORACLE_*) vaut encore, le nouveau nom l�
   assert.equal(lireConfigDialekt({ ORACLE_DUELS_JOUR: '7', DIALEKT_DUELS_JOUR: '9' }).duelsJour, 9);
   assert.equal(lireConfigDialekt({ ORACLE_HUB_TOKEN: JETON_HUB }).jetonHub, JETON_HUB);
 });
+
+test('calculatrice : un calcul de la question est fait par l’outil, et les deux modèles reçoivent la valeur exacte', async () => {
+  const r = await duelEnFlux(membre, { q: 'combien font 10XpiX324000 ?' });
+  assert.equal(r.status, 200, JSON.stringify(r.json));
+  const c = r.evts.find(e => e.t === 'calc');
+  assert.ok(c, 'la page est prévenue du calcul exact');
+  assert.equal(c.calculs[0].lisible, '10 178 760,19763093…');
+  const chat = ollama.recu.filter(x => x.chemin === '/api/chat').at(-1);
+  const systeme = (chat.corps.messages || []).find(m => m.role === 'system')?.content || '';
+  assert.match(systeme, /10178760\.19763093009/, 'le modèle local reçoit la valeur exacte, il n’a rien à calculer');
+});

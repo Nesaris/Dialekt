@@ -5,6 +5,7 @@ import { File } from './flux.js';
 import { juger } from './juge.js';
 import { systemePour } from './reglages.js';
 import { rechercher, formaterResultats, contexteMemoire } from './recherche.js';
+import { trouverCalculs } from './calcul.js';
 
 const MAX_PIECE = 40_000;
 
@@ -39,6 +40,14 @@ export class Duels {
     if (ctx) yield { t: 'ctx', text: ctx.slice(0, 80) + '…' };
     const joints = piecesJointes(pieces);
     if (joints) ctx = (ctx ? ctx + '\n\n' : '') + joints;
+    /* Les calculs de la question sont faits par la calculatrice exacte, jamais de tête par un modèle :
+       les deux modèles reçoivent le résultat comme une donnée, à reprendre tel quel. */
+    const calculs = trouverCalculs(q);
+    if (calculs.length) {
+      ctx = (ctx ? ctx + '\n\n' : '') + 'Calculs exacts faits par la calculatrice de DIALEKT (un outil, pas un modèle). Reprends ces résultats tels quels, sans refaire le calcul :\n'
+        + calculs.map(c => `- ${c.expression} = ${c.lisible} (valeur : ${c.valeur} ; ${c.precision})`).join('\n');
+      yield { t: 'calc', calculs: calculs.map(c => ({ expression: c.expression, lisible: c.lisible })) };
+    }
     if (web && this.cfg.rechercheWeb) {
       yield { t: 'status', text: 'Recherche web en cours…' };
       const trouves = await rechercher(q);
@@ -79,7 +88,10 @@ export class Duels {
   // D'un bloc, pour l'action du Hub : rien n'est enregistré dans un compte.
   async unBloc({ q, seul, modeleAdverse }) {
     const r = this.reglages.lire();
-    const ctx = await contexteMemoire({ url: this.cfg.memoireUrl, cle: this.cfg.memoireCle }, q);
+    let ctx = await contexteMemoire({ url: this.cfg.memoireUrl, cle: this.cfg.memoireCle }, q);
+    const calculs = trouverCalculs(q);
+    if (calculs.length) ctx = (ctx ? ctx + '\n\n' : '') + 'Calculs exacts faits par la calculatrice de DIALEKT (un outil, pas un modèle). Reprends ces résultats tels quels, sans refaire le calcul :\n'
+      + calculs.map(c => `- ${c.expression} = ${c.lisible} (valeur : ${c.valeur} ; ${c.precision})`).join('\n');
     const systeme = systemePour(ctx);
     const signal = AbortSignal.timeout(300_000);
     const [local, adverse] = await Promise.all([

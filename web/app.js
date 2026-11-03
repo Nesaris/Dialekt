@@ -381,6 +381,7 @@ async function lancer(q, fil, { titre, actions }, bouton) {
         else if (e.t === 'meta') (e.side === 'qwen' ? x.local : x.adverse)?.fin(e);
         else if (e.t === 'status') x.infos.replaceChildren(h('span', { class: 'when', text: e.text }));
         else if (e.t === 'ctx') x.infos.append(h('span', { class: 'chip', text: 'contexte mémoire' }));
+        else if (e.t === 'calc') x.infos.append(...e.calculs.map(c => h('span', { class: 'chip', title: 'calculé par la calculatrice exacte, pas par un modèle', text: `calcul exact : ${c.expression} = ${c.lisible}` })));
         else if (e.t === 'web') x.infos.replaceChildren(...e.results.map((w, n) => h('a', { class: 'chip', href: w.url, target: '_blank', rel: 'noopener noreferrer nofollow', title: w.snippet, text: `[${n + 1}] ${w.title}` })));
         else if (e.t === 'verdict') {
           peindreVerdict(x, e.verdict, seul);
