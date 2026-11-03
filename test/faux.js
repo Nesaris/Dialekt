@@ -63,13 +63,14 @@ export async function fauxFournisseur(genre = 'openai', cle = 'cle-essai') {
 }
 
 export async function fauxSynapse() {
-  const evenements = [];
+  const evenements = [], questions = [];
   const f = await serveur((req, res, corps) => {
     if (req.headers.authorization !== 'Bearer cer_dialekt_essai') { res.writeHead(401); res.end('{}'); return; }
+    if (req.url === '/v1/brief') { questions.push(corps.q); res.end(JSON.stringify({ texte: 'Leçons à appliquer (elles font foi) :\n- [calcul] Tout calcul passe par l’outil calculer.' })); return; }
     evenements.push(...(corps.events || []));
     res.end('{"ok":true}');
   });
-  return { ...f, evenements };
+  return { ...f, evenements, questions };
 }
 
 export function lireSse(texte) {

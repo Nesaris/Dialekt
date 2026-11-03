@@ -36,7 +36,7 @@ export class Duels {
 
   async *derouler({ compte, q, seul, modeleLocal, modeleAdverse, convId, web, pieces, signal }) {
     const r = this.reglages.lire();
-    let ctx = await contexteMemoire({ url: this.cfg.memoireUrl, cle: this.cfg.memoireCle }, q);
+    let ctx = await contexteMemoire({ url: this.cfg.memoireUrl, cle: this.cfg.memoireCle, synapseUrl: this.cfg.synapseUrl, synapseJeton: this.cfg.synapseJeton }, q);
     if (ctx) yield { t: 'ctx', text: ctx.slice(0, 80) + '…' };
     const joints = piecesJointes(pieces);
     if (joints) ctx = (ctx ? ctx + '\n\n' : '') + joints;
@@ -88,7 +88,7 @@ export class Duels {
   // D'un bloc, pour l'action du Hub : rien n'est enregistré dans un compte.
   async unBloc({ q, seul, modeleAdverse }) {
     const r = this.reglages.lire();
-    let ctx = await contexteMemoire({ url: this.cfg.memoireUrl, cle: this.cfg.memoireCle }, q);
+    let ctx = await contexteMemoire({ url: this.cfg.memoireUrl, cle: this.cfg.memoireCle, synapseUrl: this.cfg.synapseUrl, synapseJeton: this.cfg.synapseJeton }, q);
     const calculs = trouverCalculs(q);
     if (calculs.length) ctx = (ctx ? ctx + '\n\n' : '') + 'Calculs exacts faits par la calculatrice de DIALEKT (un outil, pas un modèle). Reprends ces résultats tels quels, sans refaire le calcul :\n'
       + calculs.map(c => `- ${c.expression} = ${c.lisible} (valeur : ${c.valeur} ; ${c.precision})`).join('\n');

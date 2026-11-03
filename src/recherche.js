@@ -60,7 +60,18 @@ export function formaterResultats(trouves) {
   return ['Résultats de recherche web (utilise-les et cite les sources) :', ...trouves.map((r, i) => `[${i + 1}] ${r.title}\n${r.snippet}\nSource : ${r.url}`)].join('\n\n');
 }
 
-export async function contexteMemoire({ url, cle }, q) {
+// Le contexte d'une question : d'abord le briefing de SYNAPSE (leçons à appliquer, outils,
+// ce qu'on sait de l'utilisateur, corrections passées, mémoire), prêt à coller dans la consigne.
+// L'ancienne mémoire (MEMORY_URL, /api/ask) ne sert qu'en secours, quand SYNAPSE n'est pas configuré.
+export async function contexteMemoire({ url, cle, synapseUrl, synapseJeton }, q) {
+  if (synapseUrl && synapseJeton) {
+    try {
+      const r = await fetch(`${synapseUrl}/v1/brief`, { method: 'POST', headers: { 'Content-Type': 'application/json', authorization: `Bearer ${synapseJeton}` },
+        body: JSON.stringify({ q, budget: 1500 }), signal: AbortSignal.timeout(5_000) });
+      if (r.ok) return String((await r.json()).texte || '').slice(0, 20_000);
+    } catch { /* SYNAPSE injoignable : la question part sans contexte, jamais en retard */ }
+    return '';
+  }
   if (!url) return '';
   try {
     const r = await fetch(`${url}/api/ask`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(cle ? { 'X-API-Key': cle } : {}) }, body: JSON.stringify({ q }), signal: AbortSignal.timeout(30_000) });
