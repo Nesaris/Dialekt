@@ -386,7 +386,7 @@ test('installé par le Hub sous l’ancien nom : proposé en mise à jour, chaqu
     assert.ok(!cles.has(de), `${de} n'existe plus`);
   }
   assert.deepEqual(Object.keys(r.config).sort(), ['ORACLE_DUELS_JOUR', 'ORACLE_DUELS_MINUTE']);
-  assert.equal(m.minHubVersion, '0.13.0', 'un Hub plus ancien ne connaît pas « replaces »');
+  assert.equal(m.minHubVersion, '0.17.0', 'un Hub plus ancien ne connaît ni « replaces » (0.13.0) ni {{hub.disposition}} (0.17.0)');
 });
 
 test('base : un dossier ou un fichier non inscriptible arrête le démarrage avec sa cause ; base et journaux en 0600', async () => {

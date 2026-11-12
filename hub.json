@@ -8,7 +8,7 @@
   "icon": "sparkle",
   "repository": "https://github.com/codexX64/dialekt",
   "license": "MIT",
-  "minHubVersion": "0.13.0",
+  "minHubVersion": "0.17.0",
   "replaces": [
     {
       "id": "oracle",

@@ -51,6 +51,7 @@ services:
       SOCLE_JETON_ADMIN_HUB: "{{config.HUB_ADMIN_TOKEN}}"
       SOCLE_PROXYS: "{{config.SOCLE_PROXYS}}"
       SOCLE_ORIGINES: "{{config.SOCLE_ORIGINES}}"
+      SOCLE_DISPOSITION: "{{hub.disposition}}"
       # Alertes de sécurité par courriel, si un relais est indiqué.
       SOCLE_URL_PUBLIQUE: "{{config.SOCLE_URL_PUBLIQUE}}"
       SOCLE_SMTP_HOTE: "{{config.SOCLE_SMTP_HOTE}}"

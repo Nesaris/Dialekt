@@ -2,6 +2,7 @@
 // La porte du socle gère la connexion ; tout ce qui suit suppose une session
 // complète, et le serveur revérifie chaque droit.
 import { Api, porte, pageSecurite, pageComptes, h, icone, basculeTheme, appliquerTheme, toast, confirmer, dialogue, feuille, ajouterPictos } from '/socle/compte.js';
+import { installerDisposition } from '/socle/disposition.js';
 import { rendre } from '/rendu.js';
 
 appliquerTheme();
@@ -75,6 +76,8 @@ const app = h('div', { class: 'app' },
       h('div', { class: 'topright' }, basculeTheme(), h('div', { class: 'who', title: moi.identifiant, text: moi.identifiant.slice(0, 2).toUpperCase() }))),
     stage));
 document.body.append(app);
+// Le menu à gauche, en haut, en bas ou à droite : réglé dans le Hub, ou par chacun (bouton de la barre du haut, appui long sur le menu).
+installerDisposition({ rail: app.querySelector('nav.rail') });
 
 function lien(k) {
   const p = PAGES[k];
